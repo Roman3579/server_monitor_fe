@@ -1,0 +1,4 @@
+<h1>Overview</h1>
+@for (key of getIps(); track key) {
+<app-ip-overview [ip]="key" [results]="appInfos[key]"></app-ip-overview>
+}
