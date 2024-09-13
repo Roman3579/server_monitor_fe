@@ -1,12 +1,15 @@
-import { AfterViewInit, Component, Input, input } from '@angular/core';
-import { ApiCallResult } from '../../models/api-call-result';
-import { JsonPipe } from '@angular/common';
+import { NgClass } from '@angular/common';
+import { Component, Input, input } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { ApiCallResult } from '../../models/api-call-result';
 
 interface FlattenedApiCallResult {
   targetUrl: string;
   appType: string;
   description: string;
+  active: boolean;
+  frontendUrl: string;
 }
 
 function flattenResults(results: ApiCallResult[]) {
@@ -15,6 +18,8 @@ function flattenResults(results: ApiCallResult[]) {
       targetUrl: result.targetUrl,
       appType: result.appInfoModel.appType,
       description: result.appInfoModel.description,
+      active: result.appInfoModel.appType === 'eulohy',
+      frontendUrl: result.appInfoModel.frontendUrl,
     };
   });
 }
@@ -22,7 +27,7 @@ function flattenResults(results: ApiCallResult[]) {
 @Component({
   selector: 'app-ip-overview',
   standalone: true,
-  imports: [IpOverviewComponent, MatTableModule],
+  imports: [IpOverviewComponent, MatTableModule, MatIcon, NgClass],
   templateUrl: './ip-overview.component.html',
   styleUrl: './ip-overview.component.scss',
 })
@@ -30,5 +35,11 @@ export class IpOverviewComponent {
   ip = input<string>();
   @Input({ transform: flattenResults }) results: Array<FlattenedApiCallResult> =
     [];
-  displayedColumns = ['targetUrl', 'appType', 'description'];
+  displayedColumns = [
+    'targetUrl',
+    'appType',
+    'description',
+    'active',
+    'actionsColumn',
+  ];
 }
