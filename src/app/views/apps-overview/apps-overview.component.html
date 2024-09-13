@@ -1,4 +1,8 @@
 <h1>Overview</h1>
-@for (key of getIps(); track key) {
+@if (!loadingData) { @for (key of getIps(); track key) {
 <app-ip-overview [ip]="key" [results]="appInfos[key]"></app-ip-overview>
+} } @else {
+<div class="spinner-wrapper">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
 }
