@@ -42,5 +42,17 @@ export class InfoEditComponent {
 
   onFormSubmit() {
     console.log(this.detailsForm.value);
+    if (!this.submitData()) {
+      this.showSnackbar('Failed to update data.');
+    }
+  }
+
+  private submitData(): boolean {
+    // TODO: implement data submission
+    return false;
+  }
+
+  private showSnackbar(message: string) {
+    this.snackBar.open(message, 'Close');
   }
 }
