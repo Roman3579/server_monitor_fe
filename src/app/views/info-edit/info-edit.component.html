@@ -1,0 +1,30 @@
+<div>
+  <div class="header-area">
+    <h3>Info edit</h3>
+    <h5>{{ targetWithoutEndpoint() }}</h5>
+  </div>
+  <div>
+    <form
+      class="form-area"
+      [formGroup]="detailsForm"
+      (ngSubmit)="onFormSubmit()"
+    >
+      <mat-form-field class="form-field">
+        <mat-label>Select app type</mat-label>
+        <mat-select formControlName="appType">
+          <mat-option value="one">Eulohy</mat-option>
+          <mat-option value="two">Eform</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Enter app description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Enter front end link</mat-label>
+        <input matInput formControlName="frontendLink" />
+      </mat-form-field>
+      <button type="submit" mat-flat-button>Submit data</button>
+    </form>
+  </div>
+</div>

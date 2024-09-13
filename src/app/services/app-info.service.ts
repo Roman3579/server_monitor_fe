@@ -7,7 +7,7 @@ import { map } from 'rxjs';
   providedIn: 'root',
 })
 export class AppInfoService {
-  api = '/api/v1/results';
+  api = '/api/v1/results/mock';
 
   constructor(private httpClient: HttpClient) {}
 
