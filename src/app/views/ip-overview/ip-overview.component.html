@@ -32,14 +32,16 @@
         <div class="btn-group">
           <button
             mat-icon-button
-            title="Go to front end"
+            matTooltip="Go to front end"
             aria-label="Button linking to application front end"
           >
             <mat-icon>visibility</mat-icon>
           </button>
           <button
             mat-icon-button
-            title="Edit details"
+            [routerLink]="['edit', element.targetUrl]"
+            routerLinkActive="router-link-active"
+            matTooltip="Edit details"
             aria-label="Button linking to info editing section"
           >
             <mat-icon>edit</mat-icon>

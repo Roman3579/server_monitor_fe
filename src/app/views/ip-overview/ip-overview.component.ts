@@ -2,6 +2,8 @@ import { NgClass } from '@angular/common';
 import { Component, Input, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 import { ApiCallResult } from '../../models/api-call-result';
 
 interface FlattenedApiCallResult {
@@ -27,7 +29,14 @@ function flattenResults(results: ApiCallResult[]) {
 @Component({
   selector: 'app-ip-overview',
   standalone: true,
-  imports: [IpOverviewComponent, MatTableModule, MatIcon, NgClass],
+  imports: [
+    IpOverviewComponent,
+    MatTableModule,
+    MatIcon,
+    NgClass,
+    RouterLink,
+    MatTooltipModule,
+  ],
   templateUrl: './ip-overview.component.html',
   styleUrl: './ip-overview.component.scss',
 })
