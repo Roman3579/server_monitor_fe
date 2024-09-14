@@ -1,6 +1,17 @@
 <div>
   <div class="header-area">
-    <h3>Info edit</h3>
+    <div class="title-area">
+      <button
+        id="back-button"
+        mat-icon-button
+        [routerLink]="['/']"
+        matTooltip="Go to detailed view"
+        aria-label="Button linking to app details"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h3>Info edit</h3>
+    </div>
     <h5>{{ targetWithoutEndpoint() }}</h5>
   </div>
   <div>

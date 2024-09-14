@@ -1,12 +1,13 @@
 import { Component, computed, DestroyRef, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AppInfoService } from '../../services/app-info.service';
 import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.component';
 
@@ -18,7 +19,9 @@ import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatButton,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
   ],
   templateUrl: './info-edit.component.html',
   styleUrl: './info-edit.component.scss',
