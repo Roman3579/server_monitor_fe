@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiCallResult } from '../models/api-call-result';
 import { map } from 'rxjs';
+import { AppInfo } from '../models/app-info';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,10 @@ export class AppInfoService {
 
   public getAppInfo() {
     return this.httpClient.get<{ apiCallResults: ApiCallResult[] }>(this.api);
+  }
+
+  public updateAppInfo(appInfo: AppInfo) {
+    return this.httpClient.put(this.api, appInfo);
   }
 
   public getGroupedAppInfo() {
