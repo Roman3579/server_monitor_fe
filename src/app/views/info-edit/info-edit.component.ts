@@ -1,11 +1,18 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  input,
+  OnDestroy,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { AppInfoService } from '../../services/app-info.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { AppInfoService } from '../../services/app-info.service';
 
 @Component({
   selector: 'app-info-edit',
@@ -37,18 +44,23 @@ export class InfoEditComponent {
   constructor(
     private appInfoService: AppInfoService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private destroyRef: DestroyRef
   ) {}
 
   onFormSubmit() {
-    this.appInfoService
+    const submissionSubscription = this.appInfoService
       .updateAppInfo({
         appType: this.detailsForm.value.appType!,
         description: this.detailsForm.value.description!,
         frontendUrl: this.detailsForm.value.frontendLink!,
       })
       .subscribe({
-        next: (res) => console.log(res),
+        next: () => {
+          this.showSnackbar('Data updated successfully.');
+          this.router.navigate(['/']);
+        },
         error: (error) => {
           console.error(error);
           this.showSnackbar(
@@ -56,6 +68,10 @@ export class InfoEditComponent {
           );
         },
       });
+
+    this.destroyRef.onDestroy(() => {
+      submissionSubscription.unsubscribe();
+    });
   }
 
   private showSnackbar(message: string) {
