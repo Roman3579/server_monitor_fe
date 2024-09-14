@@ -5,6 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { ApiCallResult } from '../../models/api-call-result';
+import { MatButtonModule } from '@angular/material/button';
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -36,6 +37,7 @@ function flattenResults(results: ApiCallResult[]) {
     NgClass,
     RouterLink,
     MatTooltipModule,
+    MatButtonModule,
   ],
   templateUrl: './ip-overview.component.html',
   styleUrl: './ip-overview.component.scss',

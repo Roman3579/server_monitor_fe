@@ -31,8 +31,8 @@
       <td mat-cell *matCellDef="let element">
         <div class="btn-group">
           <button
-            class="view-details-button"
             mat-icon-button
+            color="primary"
             matTooltip="Go to detailed view"
             aria-label="Button linking to app details"
           >
@@ -40,7 +40,7 @@
           </button>
           <button
             mat-icon-button
-            class="edit-button"
+            color="accent"
             [routerLink]="['edit', element.targetUrl]"
             routerLinkActive="router-link-active"
             matTooltip="Edit details"
@@ -50,7 +50,7 @@
           </button>
           <button
             mat-icon-button
-            class="view-frontend-button"
+            color="success"
             matTooltip="Go to front end"
             aria-label="Button linking to info editing section"
           >

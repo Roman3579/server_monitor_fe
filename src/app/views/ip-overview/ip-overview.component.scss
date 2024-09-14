@@ -1,27 +1,22 @@
+$app-green-color: #1a7a22;
+$app-yellow-clor: #ccd21e;
+
 .ip-overview-wrapper {
     margin-bottom: 1%;
 }
 
 .app-active-icon {
-    color: green;
+    color: $app-green-color;
 }
 
 .app-inactive-icon {
     color: darkred;
 }
 
-button {
-    color: white;
+.mat-success {
+    color: $app-green-color;
 }
 
-.edit-button {
-    background-color: goldenrod;
-}
-
-.view-details-button {
-    background-color: #1c23f2;
-}
-
-.view-frontend-button {
-    background-color: green;
+.mat-accent {
+    color: $app-yellow-clor;
 }
