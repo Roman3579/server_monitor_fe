@@ -1,18 +1,14 @@
-import {
-  Component,
-  computed,
-  DestroyRef,
-  input,
-  OnDestroy,
-} from '@angular/core';
+import { Component, computed, DestroyRef, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AppInfoService } from '../../services/app-info.service';
+import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.component';
 
 @Component({
   selector: 'app-info-edit',
@@ -46,10 +42,12 @@ export class InfoEditComponent {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private router: Router,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private dialog: MatDialog
   ) {}
 
   onFormSubmit() {
+    this.dialog.open(LoadingDialogComponent);
     const submissionSubscription = this.appInfoService
       .updateAppInfo({
         appType: this.detailsForm.value.appType!,
@@ -58,10 +56,12 @@ export class InfoEditComponent {
       })
       .subscribe({
         next: () => {
+          this.dialog.closeAll();
           this.showSnackbar('Data updated successfully.');
           this.router.navigate(['/']);
         },
         error: (error) => {
+          this.dialog.closeAll();
           console.error(error);
           this.showSnackbar(
             'An error occurred when submitting data. View console for details'
