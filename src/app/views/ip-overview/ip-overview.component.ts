@@ -1,11 +1,19 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { ApiCallResult } from '../../models/api-call-result';
-import { MatButtonModule } from '@angular/material/button';
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -33,6 +41,7 @@ function flattenResults(results: ApiCallResult[]) {
   imports: [
     IpOverviewComponent,
     MatTableModule,
+    MatSortModule,
     MatIcon,
     NgClass,
     RouterLink,
@@ -42,10 +51,15 @@ function flattenResults(results: ApiCallResult[]) {
   templateUrl: './ip-overview.component.html',
   styleUrl: './ip-overview.component.scss',
 })
-export class IpOverviewComponent {
+export class IpOverviewComponent implements OnInit, AfterViewInit {
   ip = input<string>();
   @Input({ transform: flattenResults }) results: Array<FlattenedApiCallResult> =
     [];
+
+  dataSource = new MatTableDataSource<FlattenedApiCallResult>();
+
+  @ViewChild(MatSort) sort!: MatSort;
+
   displayedColumns = [
     'targetUrl',
     'appType',
@@ -53,4 +67,12 @@ export class IpOverviewComponent {
     'active',
     'actionsColumn',
   ];
+
+  ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.results);
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+  }
 }
