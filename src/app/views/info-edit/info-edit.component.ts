@@ -41,18 +41,24 @@ export class InfoEditComponent {
   ) {}
 
   onFormSubmit() {
-    console.log(this.detailsForm.value);
-    if (!this.submitData()) {
-      this.showSnackbar('Failed to update data.');
-    }
-  }
-
-  private submitData(): boolean {
-    // TODO: implement data submission
-    return false;
+    this.appInfoService
+      .updateAppInfo({
+        appType: this.detailsForm.value.appType!,
+        description: this.detailsForm.value.description!,
+        frontendUrl: this.detailsForm.value.frontendLink!,
+      })
+      .subscribe({
+        next: (res) => console.log(res),
+        error: (error) => {
+          console.error(error);
+          this.showSnackbar(
+            'An error occurred when submitting data. View console for details'
+          );
+        },
+      });
   }
 
   private showSnackbar(message: string) {
-    this.snackBar.open(message, 'Close');
+    this.snackBar.open(message, 'Close', { duration: 5000 });
   }
 }
