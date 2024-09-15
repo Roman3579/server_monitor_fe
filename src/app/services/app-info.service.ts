@@ -55,12 +55,12 @@ export class AppInfoService {
     return ports;
   }
 
-  private extractIp(url: string) {
+  extractIp(url: string) {
     const urlObject = new URL(url);
     return `${urlObject.protocol}//${urlObject.hostname}`;
   }
 
-  private extractPort(url: string) {
+  extractPort(url: string) {
     const urlObject = new URL(url);
     return urlObject.port;
   }
