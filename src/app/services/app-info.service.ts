@@ -56,15 +56,12 @@ export class AppInfoService {
   }
 
   private extractIp(url: string) {
-    const firstColon = url.indexOf(':');
-    const secondColon = url.indexOf(':', firstColon + 1);
-    return url.substring(0, secondColon);
+    const urlObject = new URL(url);
+    return `${urlObject.protocol}//${urlObject.hostname}`;
   }
 
   private extractPort(url: string) {
-    const firstColon = url.indexOf(':');
-    const secondColon = url.indexOf(':', firstColon + 1);
-    const firstSlash = url.indexOf('/', secondColon);
-    return url.substring(secondColon + 1, firstSlash);
+    const urlObject = new URL(url);
+    return urlObject.port;
   }
 }
