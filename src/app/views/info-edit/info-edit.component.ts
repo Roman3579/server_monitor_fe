@@ -30,7 +30,7 @@ export class InfoEditComponent {
   target = input.required<string>();
   targetWithoutEndpoint = computed(() => {
     try {
-      return new URL(this.target()).origin;
+      return this.appInfoService.extractOrigin(this.target());
     } catch (error) {
       console.warn(`Failed to extract origin from ${this.target()}`);
       return 'unknown';
