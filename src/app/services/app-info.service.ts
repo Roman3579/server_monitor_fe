@@ -61,7 +61,6 @@ export class AppInfoService {
   }
 
   extractPort(url: string) {
-    const urlObject = new URL(url);
-    return urlObject.port;
+    return new URL(url).port;
   }
 }
