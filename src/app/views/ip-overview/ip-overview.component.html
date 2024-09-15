@@ -55,14 +55,16 @@
           >
             <mat-icon>edit</mat-icon>
           </button>
-          <button
+          <a
+            [href]="element.frontendUrl"
+            target="_blank"
             mat-icon-button
             color="success"
             matTooltip="Go to front end"
             aria-label="Button linking to info editing section"
           >
             <mat-icon>play_arrow</mat-icon>
-          </button>
+          </a>
         </div>
       </td>
     </ng-container>
