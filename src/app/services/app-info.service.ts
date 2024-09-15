@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ApiCallResult } from '../models/api-call-result';
 import { map } from 'rxjs';
 import { AppInfo } from '../models/app-info';
+import { U } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root',
@@ -62,5 +63,9 @@ export class AppInfoService {
 
   extractPort(url: string) {
     return new URL(url).port;
+  }
+
+  extractOrigin(url: string) {
+    return new URL(url).origin;
   }
 }
