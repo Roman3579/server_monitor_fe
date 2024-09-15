@@ -1,6 +1,6 @@
-{
-    "/api": {
-        "target": "http://localhost:8080",
-        "secure": false
-    }
-    }
+// {
+//     "/api": {
+//         "target": "https://eb64eadd-db7b-4012-bbb4-0768dbe3a5e1.mock.pstmn.io",
+//         "secure": false
+//     }
+//     }

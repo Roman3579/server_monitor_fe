@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiCallResult } from '../models/api-call-result';
 import { map } from 'rxjs';
+import { ApiCallResult } from '../models/api-call-result';
 import { AppInfo } from '../models/app-info';
-import { U } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppInfoService {
-  api = '/api/v1/results/mock';
+  api =
+    'https://eb64eadd-db7b-4012-bbb4-0768dbe3a5e1.mock.pstmn.io/api/v1/results';
 
   constructor(private httpClient: HttpClient) {}
 
