@@ -29,9 +29,12 @@ import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.
 export class InfoEditComponent {
   target = input.required<string>();
   targetWithoutEndpoint = computed(() => {
-    const firstSlash = this.target().indexOf('/');
-    const thirdSlash = this.target().indexOf('/', firstSlash + 2);
-    return this.target().substring(0, thirdSlash);
+    try {
+      return new URL(this.target()).origin;
+    } catch (error) {
+      console.warn(`Failed to extract origin from ${this.target()}`);
+      return 'unknown';
+    }
   });
 
   detailsForm = this.formBuilder.group({
