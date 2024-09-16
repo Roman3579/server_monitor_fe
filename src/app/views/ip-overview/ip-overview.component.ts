@@ -86,4 +86,8 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
   showOnlyActiveApps() {
     this.dataSource.filter = this.onlyActive ? this.onlyActive.toString() : '';
   }
+
+  downloadLatestLogs() {
+    window.alert("Coming soon...")
+  }
 }

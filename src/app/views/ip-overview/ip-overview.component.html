@@ -3,7 +3,8 @@
     <h3>{{ ip() }}</h3>
     <p>
       <mat-slide-toggle [(ngModel)]="onlyActive" (change)="showOnlyActiveApps()"
-        >Show only active apps</mat-slide-toggle
+      >Show only active apps
+      </mat-slide-toggle
       >
     </p>
   </div>
@@ -28,7 +29,8 @@
       <td mat-cell *matCellDef="let element">
         <mat-icon
           [ngClass]="element.active ? 'app-active-icon' : 'app-inactive-icon'"
-          >brightness_1</mat-icon
+        >brightness_1
+        </mat-icon
         >
       </td>
     </ng-container>
@@ -54,6 +56,15 @@
             aria-label="Button linking to info editing section"
           >
             <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="warn"
+            matTooltip="Download latest logs"
+            aria-label="Button to download latest application logs"
+            (click)="downloadLatestLogs()"
+          >
+            <mat-icon>notes</mat-icon>
           </button>
           <a
             [href]="element.frontendUrl"
