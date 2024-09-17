@@ -36,7 +36,7 @@ function flattenResults(results: ApiCallResult[]) {
       targetUrl: result.targetUrl,
       appType: result.appInfoModel.appType,
       description: result.appInfoModel.description,
-      active: result.appInfoModel.appType === 'eulohy',
+      active: result.appInfoModel.appType !== 'error',
       frontendUrl: result.appInfoModel.frontendUrl,
     };
   });

@@ -28,7 +28,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Active</th>
       <td mat-cell *matCellDef="let element">
         <mat-icon
-          [ngClass]="element.active ? 'app-active-icon' : 'app-inactive-icon'"
+          [color]="element.active ? 'success' : 'warn'"
         >brightness_1
         </mat-icon
         >
