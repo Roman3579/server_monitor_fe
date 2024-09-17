@@ -16,6 +16,11 @@ import { RouterLink } from '@angular/router';
 import { ApiCallResult } from '../../models/api-call-result';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import {AppInfoService} from "../../services/app-info.service";
+import { saveAs } from "file-saver";
+import {MatDialog} from "@angular/material/dialog";
+import {LoadingDialogComponent} from "../shared/loading-dialog/loading-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -41,7 +46,6 @@ function flattenResults(results: ApiCallResult[]) {
   selector: 'app-ip-overview',
   standalone: true,
   imports: [
-    IpOverviewComponent,
     MatTableModule,
     MatSortModule,
     MatIcon,
@@ -71,6 +75,9 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     'actionsColumn',
   ];
 
+  constructor(private appInfoService: AppInfoService, private dialog: MatDialog, private snackBar: MatSnackBar) {
+  }
+
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.results);
     this.dataSource.filterPredicate = (
@@ -85,5 +92,23 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
 
   showOnlyActiveApps() {
     this.dataSource.filter = this.onlyActive ? this.onlyActive.toString() : '';
+  }
+
+  downloadLatestLogs(url: string) {
+    this.dialog.open(LoadingDialogComponent, {data: {title: "Downloading logs..."}})
+    const urlOrigin = this.appInfoService.extractOrigin(url)
+    const filename = `${urlOrigin}_logs.txt`
+    this.appInfoService.downloadAppLogs(urlOrigin)
+      .subscribe({
+        next: (res) => {
+          saveAs(res, filename)
+          this.dialog.closeAll()
+        },
+        error: (err) => {
+          console.log(err)
+          this.snackBar.open("Failed to download logs. See console for details.")
+          this.dialog.closeAll()
+        }
+      })
   }
 }
