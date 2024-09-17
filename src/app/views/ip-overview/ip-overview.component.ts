@@ -21,6 +21,7 @@ import { saveAs } from "file-saver";
 import {MatDialog} from "@angular/material/dialog";
 import {LoadingDialogComponent} from "../shared/loading-dialog/loading-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {showComingSoonMessage} from "../../services/coming-soon";
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -111,4 +112,6 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
         }
       })
   }
+
+  protected readonly showComingSoonMessage = showComingSoonMessage;
 }
