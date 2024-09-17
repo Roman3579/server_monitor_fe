@@ -16,6 +16,8 @@ import { RouterLink } from '@angular/router';
 import { ApiCallResult } from '../../models/api-call-result';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import {AppInfoService} from "../../services/app-info.service";
+import { saveAs } from "file-saver";
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -41,7 +43,6 @@ function flattenResults(results: ApiCallResult[]) {
   selector: 'app-ip-overview',
   standalone: true,
   imports: [
-    IpOverviewComponent,
     MatTableModule,
     MatSortModule,
     MatIcon,
@@ -71,6 +72,9 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     'actionsColumn',
   ];
 
+  constructor(private appInfoService: AppInfoService) {
+  }
+
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.results);
     this.dataSource.filterPredicate = (
@@ -87,7 +91,10 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = this.onlyActive ? this.onlyActive.toString() : '';
   }
 
-  downloadLatestLogs() {
-    window.alert("Coming soon...")
+  downloadLatestLogs(url: string) {
+    const urlOrigin = this.appInfoService.extractOrigin(url)
+    const filename = `${urlOrigin}_logs.txt`
+    this.appInfoService.downloadAppLogs(urlOrigin)
+      .subscribe({next: (res) => saveAs(res, filename)})
   }
 }

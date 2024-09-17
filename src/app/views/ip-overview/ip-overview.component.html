@@ -62,7 +62,7 @@
             color="warn"
             matTooltip="Download latest logs"
             aria-label="Button to download latest application logs"
-            (click)="downloadLatestLogs()"
+            (click)="downloadLatestLogs(element.targetUrl)"
           >
             <mat-icon>notes</mat-icon>
           </button>
