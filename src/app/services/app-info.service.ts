@@ -21,6 +21,12 @@ export class AppInfoService {
     return this.httpClient.put(this.api, appInfo);
   }
 
+  public downloadAppLogs(url: string){
+    return this.httpClient.get(this.api + this.logs_endpoint,
+      {params: new HttpParams().set("url", url), responseType: 'blob'}
+    );
+  }
+
   public getGroupedAppInfo() {
     return this.getAppInfo().pipe(map((data) => this.groupResultsByIp(data)));
   }
