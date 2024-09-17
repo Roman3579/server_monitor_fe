@@ -53,7 +53,7 @@ export class InfoEditComponent {
   ) {}
 
   onFormSubmit() {
-    this.dialog.open(LoadingDialogComponent);
+    this.dialog.open(LoadingDialogComponent, {data: {title: "Sending data..."}});
     const submissionSubscription = this.appInfoService
       .updateAppInfo({
         appType: this.detailsForm.value.appType!,
