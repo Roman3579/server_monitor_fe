@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { ApiCallResult } from '../models/api-call-result';
@@ -17,8 +17,8 @@ export class AppInfoService {
     return this.httpClient.get<{ apiCallResults: ApiCallResult[] }>(this.api);
   }
 
-  public updateAppInfo(appInfo: AppInfo) {
-    return this.httpClient.put(this.api, appInfo);
+  public updateAppInfo(url: string, appInfo: AppInfo) {
+    return this.httpClient.put(this.api, appInfo, {params: new HttpParams().set("targetUrl", url)});
   }
 
   public downloadAppLogs(url: string){
