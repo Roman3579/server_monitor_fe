@@ -1,6 +1,6 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable, shareReplay } from 'rxjs';
 import { ApiCallResult } from '../models/api-call-result';
 import { AppInfo } from '../models/app-info';
 
@@ -10,25 +10,34 @@ import { AppInfo } from '../models/app-info';
 export class AppInfoService {
   api =
     'https://eb64eadd-db7b-4012-bbb4-0768dbe3a5e1.mock.pstmn.io/api/v1/results';
+  logs_endpoint = '';
 
-  constructor(private httpClient: HttpClient) {}
+  appInfoData: Observable<{ apiCallResults: ApiCallResult[] }>;
+
+  constructor(private httpClient: HttpClient) {
+    this.appInfoData = this.getAppInfo().pipe(shareReplay());
+  }
 
   public getAppInfo() {
     return this.httpClient.get<{ apiCallResults: ApiCallResult[] }>(this.api);
   }
 
   public updateAppInfo(url: string, appInfo: AppInfo) {
-    return this.httpClient.put(this.api, appInfo, {params: new HttpParams().set("targetUrl", url)});
+    return this.httpClient.put(this.api, appInfo, {
+      params: new HttpParams().set('targetUrl', url),
+    });
   }
 
-  public downloadAppLogs(url: string){
-    return this.httpClient.get(this.api + this.logs_endpoint,
-      {params: new HttpParams().set("url", url), responseType: 'blob'}
-    );
+  public downloadAppLogs(url: string) {
+    return this.httpClient.get(this.api + this.logs_endpoint, {
+      params: new HttpParams().set('url', url),
+      responseType: 'blob',
+    });
   }
 
   public getGroupedAppInfo() {
-    return this.getAppInfo().pipe(map((data) => this.groupResultsByIp(data)));
+    console.log('Getting grouped app data...');
+    return this.appInfoData.pipe(map((data) => this.groupResultsByIp(data)));
   }
 
   private groupResultsByIp(data: { apiCallResults: ApiCallResult[] }) {
