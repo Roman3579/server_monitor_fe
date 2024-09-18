@@ -25,7 +25,6 @@ export class AppsOverviewComponent implements OnInit {
     this.loadingData = true;
     const subscription = this.appInfoService.getGroupedAppInfo().subscribe({
       next: (res) => {
-        console.log(res);
         this.appInfos = res;
         this.loadingData = false;
       },
