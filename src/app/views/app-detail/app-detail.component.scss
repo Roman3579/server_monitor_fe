@@ -1,4 +1,24 @@
+.app-detail-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-section-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .header-and-button-area {
     display: flex;
     flex-direction: row;
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-section {
+    width: 60%;
 }

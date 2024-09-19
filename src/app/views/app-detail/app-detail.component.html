@@ -12,11 +12,19 @@
       </button>
       <h3>App deployed at: {{ targetOrigin() }}</h3>
     </div>
-    <h6>Info retrieved from: {{ target() }}</h6>
   </div>
-  <div class="main-section">
-    <p>Application type: {{ appInfo?.appInfoModel?.appType }}</p>
-    <p>Description: {{ appInfo?.appInfoModel?.appType }}</p>
-    <a [href]="appInfo?.appInfoModel?.frontendUrl">Link to front end</a>
+  <div class="main-section-wrapper">
+    <div class="main-section">
+      <mat-card appearance="outlined">
+        <mat-card-header class="card-header">
+          <h4>Application type: {{ appInfo?.appInfoModel?.appType }}</h4>
+          <h6>Info retrieved from: {{ target() }}</h6>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Description: {{ appInfo?.appInfoModel?.appType }}</p>
+          <a [href]="appInfo?.appInfoModel?.frontendUrl">Link to front end</a>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>

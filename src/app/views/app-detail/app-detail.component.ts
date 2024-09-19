@@ -5,11 +5,18 @@ import { JsonPipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-app-detail',
   standalone: true,
-  imports: [JsonPipe, MatIconModule, MatButtonModule, RouterLink],
+  imports: [
+    JsonPipe,
+    MatIconModule,
+    MatButtonModule,
+    RouterLink,
+    MatCardModule,
+  ],
   templateUrl: './app-detail.component.html',
   styleUrl: './app-detail.component.scss',
 })
