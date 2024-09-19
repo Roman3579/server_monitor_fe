@@ -4,6 +4,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ApiCallResult } from '../../models/api-call-result';
 import { AppInfoService } from '../../services/app-info.service';
 import { IpOverviewComponent } from '../ip-overview/ip-overview.component';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-apps-overview',
