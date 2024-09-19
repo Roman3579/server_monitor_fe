@@ -16,12 +16,12 @@ import { RouterLink } from '@angular/router';
 import { ApiCallResult } from '../../models/api-call-result';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
-import {AppInfoService} from "../../services/app-info.service";
-import { saveAs } from "file-saver";
-import {MatDialog} from "@angular/material/dialog";
-import {LoadingDialogComponent} from "../shared/loading-dialog/loading-dialog.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {showComingSoonMessage} from "../../services/coming-soon";
+import { AppInfoService } from '../../services/app-info.service';
+import { saveAs } from 'file-saver';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { showComingSoonMessage } from '../../services/coming-soon';
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -67,6 +67,7 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<FlattenedApiCallResult>();
   @ViewChild(MatSort) sort!: MatSort;
   onlyActive = false;
+  expanded = false;
 
   displayedColumns = [
     'targetUrl',
@@ -76,8 +77,11 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     'actionsColumn',
   ];
 
-  constructor(private appInfoService: AppInfoService, private dialog: MatDialog, private snackBar: MatSnackBar) {
-  }
+  constructor(
+    private appInfoService: AppInfoService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.results);
@@ -96,22 +100,27 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
   }
 
   downloadLatestLogs(url: string) {
-    this.dialog.open(LoadingDialogComponent, {data: {title: "Downloading logs..."}})
-    const urlOrigin = this.appInfoService.extractOrigin(url)
-    const filename = `${urlOrigin}_logs.txt`
-    this.appInfoService.downloadAppLogs(urlOrigin)
-      .subscribe({
-        next: (res) => {
-          saveAs(res, filename)
-          this.dialog.closeAll()
-        },
-        error: (err) => {
-          console.log(err)
-          this.snackBar.open("Failed to download logs. See console for details.")
-          this.dialog.closeAll()
-        }
-      })
+    this.dialog.open(LoadingDialogComponent, {
+      data: { title: 'Downloading logs...' },
+    });
+    const urlOrigin = this.appInfoService.extractOrigin(url);
+    const filename = `${urlOrigin}_logs.txt`;
+    this.appInfoService.downloadAppLogs(urlOrigin).subscribe({
+      next: (res) => {
+        saveAs(res, filename);
+        this.dialog.closeAll();
+      },
+      error: (err) => {
+        console.log(err);
+        this.snackBar.open('Failed to download logs. See console for details.');
+        this.dialog.closeAll();
+      },
+    });
   }
 
   protected readonly showComingSoonMessage = showComingSoonMessage;
+
+  toggleExpansion() {
+    this.expanded = !this.expanded;
+  }
 }
