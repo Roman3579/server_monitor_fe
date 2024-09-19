@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { showComingSoonMessage } from '../../services/coming-soon';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -61,7 +62,7 @@ function flattenResults(results: ApiCallResult[]) {
   styleUrl: './ip-overview.component.scss',
 })
 export class IpOverviewComponent implements OnInit, AfterViewInit {
-  ip = input<string>();
+  ip = input.required<string>();
   @Input({ transform: flattenResults }) results: Array<FlattenedApiCallResult> =
     [];
   dataSource = new MatTableDataSource<FlattenedApiCallResult>();
@@ -79,6 +80,7 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
 
   constructor(
     private appInfoService: AppInfoService,
+    private localStorageService: LocalStorageService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -89,6 +91,9 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
       data: FlattenedApiCallResult,
       filter: string
     ) => data.active.toString() === filter;
+    this.expanded = !this.localStorageService
+      .retrieveCollapsedIpViews()
+      .includes(this.ip());
   }
 
   ngAfterViewInit(): void {
@@ -108,12 +113,12 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     this.appInfoService.downloadAppLogs(urlOrigin).subscribe({
       next: (res) => {
         saveAs(res, filename);
-        dialogRef.close()
+        dialogRef.close();
       },
       error: (err) => {
         console.log(err);
         this.snackBar.open('Failed to download logs. See console for details.');
-        dialogRef.close()
+        dialogRef.close();
       },
     });
   }
@@ -122,5 +127,8 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
 
   toggleExpansion() {
     this.expanded = !this.expanded;
+    this.expanded
+      ? this.localStorageService.removeFromCollapsedViews(this.ip())
+      : this.localStorageService.addToCollapsedViews(this.ip());
   }
 }

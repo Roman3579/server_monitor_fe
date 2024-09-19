@@ -1,18 +1,16 @@
 <div class="ip-overview-wrapper">
   <div class="header-area">
     <div class="header-top-row">
-      <h3>{{ ip() }}</h3>
       <button mat-icon-button (click)="toggleExpansion()">
-        <mat-icon>{{
-          expanded ? "keyboard_arrow_down" : "keyboard_arrow_right"
-        }}</mat-icon>
+        <mat-icon>{{ expanded ? "remove" : "add" }}</mat-icon>
       </button>
+      <h3>{{ ip() }}</h3>
     </div>
-    <p>
+    <!-- <p>
       <mat-slide-toggle [(ngModel)]="onlyActive" (change)="showOnlyActiveApps()"
         >Show only active apps
       </mat-slide-toggle>
-    </p>
+    </p> -->
   </div>
   @if (expanded) {
   <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
