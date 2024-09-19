@@ -108,17 +108,15 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     this.appInfoService.downloadAppLogs(urlOrigin).subscribe({
       next: (res) => {
         saveAs(res, filename);
-        dialogRef.close()
+        dialogRef.close();
       },
       error: (err) => {
         console.log(err);
         this.snackBar.open('Failed to download logs. See console for details.');
-        dialogRef.close()
+        dialogRef.close();
       },
     });
   }
-
-  protected readonly showComingSoonMessage = showComingSoonMessage;
 
   toggleExpansion() {
     this.expanded = !this.expanded;
