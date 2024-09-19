@@ -1,1 +1,22 @@
-<p>app-detail works!</p>
+<div class="app-detail-wrapper">
+  <div class="header-area">
+    <div class="header-and-button-area">
+      <button
+        id="back-button"
+        mat-icon-button
+        [routerLink]="['/']"
+        matTooltip="Go back to overview"
+        aria-label="Button linking to apps overview"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h3>App deployed at: {{ targetOrigin() }}</h3>
+    </div>
+    <h6>Info retrieved from: {{ target() }}</h6>
+  </div>
+  <div class="main-section">
+    <p>Application type: {{ appInfo?.appInfoModel?.appType }}</p>
+    <p>Description: {{ appInfo?.appInfoModel?.appType }}</p>
+    <a [href]="appInfo?.appInfoModel?.frontendUrl">Link to front end</a>
+  </div>
+</div>
