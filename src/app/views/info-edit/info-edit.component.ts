@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
 import { AppInfoService } from '../../services/app-info.service';
 import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.component';
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-info-edit',
@@ -21,6 +22,7 @@ import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltip,
     RouterLink,
   ],
   templateUrl: './info-edit.component.html',
