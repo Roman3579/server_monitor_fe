@@ -24,8 +24,10 @@ export class LocalStorageService {
 
   removeFromCollapsedViews(collapsedView: string) {
     const collapsedViews = this.retrieveCollapsedIpViews();
-    collapsedViews.filter((element) => element !== collapsedView);
-    this.savedCollapsedViews(collapsedViews);
+    const filtered = collapsedViews.filter(
+      (element) => element != collapsedView
+    );
+    this.savedCollapsedViews(filtered);
   }
 
   savedCollapsedViews(collapsedViews: string[]) {
