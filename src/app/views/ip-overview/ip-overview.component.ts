@@ -7,21 +7,20 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { ApiCallResult } from '../../models/api-call-result';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormsModule } from '@angular/forms';
-import { AppInfoService } from '../../services/app-info.service';
 import { saveAs } from 'file-saver';
-import { MatDialog } from '@angular/material/dialog';
+import { ApiCallResult } from '../../models/api-call-result';
+import { AppInfoService } from '../../services/app-info.service';
 import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { showComingSoonMessage } from '../../services/coming-soon';
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -108,17 +107,15 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     this.appInfoService.downloadAppLogs(urlOrigin).subscribe({
       next: (res) => {
         saveAs(res, filename);
-        dialogRef.close()
+        dialogRef.close();
       },
       error: (err) => {
         console.log(err);
         this.snackBar.open('Failed to download logs. See console for details.');
-        dialogRef.close()
+        dialogRef.close();
       },
     });
   }
-
-  protected readonly showComingSoonMessage = showComingSoonMessage;
 
   toggleExpansion() {
     this.expanded = !this.expanded;
