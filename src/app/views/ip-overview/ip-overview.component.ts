@@ -67,7 +67,7 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<FlattenedApiCallResult>();
   @ViewChild(MatSort) sort!: MatSort;
   onlyActive = false;
-  expanded = false;
+  expanded = true;
 
   displayedColumns = [
     'targetUrl',
@@ -100,7 +100,7 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
   }
 
   downloadLatestLogs(url: string) {
-    this.dialog.open(LoadingDialogComponent, {
+    const dialogRef = this.dialog.open(LoadingDialogComponent, {
       data: { title: 'Downloading logs...' },
     });
     const urlOrigin = this.appInfoService.extractOrigin(url);
@@ -108,12 +108,12 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     this.appInfoService.downloadAppLogs(urlOrigin).subscribe({
       next: (res) => {
         saveAs(res, filename);
-        this.dialog.closeAll();
+        dialogRef.close()
       },
       error: (err) => {
         console.log(err);
         this.snackBar.open('Failed to download logs. See console for details.');
-        this.dialog.closeAll();
+        dialogRef.close()
       },
     });
   }
