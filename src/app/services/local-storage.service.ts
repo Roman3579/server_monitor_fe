@@ -4,40 +4,34 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  readonly EXPANDED_VIEWS_KEY = 'expanded-views';
+  readonly COLLAPSED_VIEWS_KEY = 'collapsed-views';
 
-  constructor() {
-    this.initializeSavedExpandedViews();
-  }
+  constructor() {}
 
-  private initializeSavedExpandedViews() {
-    this.saveExpandedViews([]);
-  }
-
-  retrieveExpandedIpViews(): string[] {
-    const expandedViewsString = localStorage.getItem(this.EXPANDED_VIEWS_KEY);
-    if (!expandedViewsString) {
+  retrieveCollapsedIpViews(): string[] {
+    const collapsedViewsString = localStorage.getItem(this.COLLAPSED_VIEWS_KEY);
+    if (!collapsedViewsString) {
       return [];
     }
-    return JSON.parse(expandedViewsString);
+    return JSON.parse(collapsedViewsString);
   }
 
-  addToExpandedViews(expandedView: string) {
-    const expandedViews = this.retrieveExpandedIpViews();
-    expandedViews.push(expandedView);
-    this.saveExpandedViews(expandedViews);
+  addToCollapsedViews(collapsedView: string) {
+    const collapsedViews = this.retrieveCollapsedIpViews();
+    collapsedViews.push(collapsedView);
+    this.savedCollapsedViews(collapsedViews);
   }
 
-  removeFromExpandedViews(expandedView: string) {
-    const expandedViews = this.retrieveExpandedIpViews();
-    expandedViews.filter((element) => element !== expandedView);
-    this.saveExpandedViews(expandedViews);
+  removeFromCollapsedViews(collapsedView: string) {
+    const collapsedViews = this.retrieveCollapsedIpViews();
+    collapsedViews.filter((element) => element !== collapsedView);
+    this.savedCollapsedViews(collapsedViews);
   }
 
-  saveExpandedViews(expandedViews: string[]) {
+  savedCollapsedViews(collapsedViews: string[]) {
     localStorage.setItem(
-      this.EXPANDED_VIEWS_KEY,
-      JSON.stringify(expandedViews)
+      this.COLLAPSED_VIEWS_KEY,
+      JSON.stringify(collapsedViews)
     );
   }
 }
