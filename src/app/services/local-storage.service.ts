@@ -28,6 +28,12 @@ export class LocalStorageService {
     this.saveExpandedViews(expandedViews);
   }
 
+  removeFromExpandedViews(expandedView: string) {
+    const expandedViews = this.retrieveExpandedIpViews();
+    expandedViews.filter((element) => element !== expandedView);
+    this.saveExpandedViews(expandedViews);
+  }
+
   saveExpandedViews(expandedViews: string[]) {
     localStorage.setItem(
       this.EXPANDED_VIEWS_KEY,
