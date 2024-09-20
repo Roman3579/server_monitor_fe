@@ -2,15 +2,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, shareReplay } from 'rxjs';
 import { ApiCallResult } from '../models/api-call-result';
-import { AppInfo } from '../models/app-info';
+import {AppInfo, AppInfoRequest} from '../models/app-info';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppInfoService {
   api =
-    'https://eb64eadd-db7b-4012-bbb4-0768dbe3a5e1.mock.pstmn.io/api/v1/results';
-  logs_endpoint = '';
+    '/api/v1/results';
+  logs_endpoint = "/logs"
 
   appInfoData: Observable<{ apiCallResults: ApiCallResult[] }>;
 
@@ -22,7 +22,7 @@ export class AppInfoService {
     return this.httpClient.get<{ apiCallResults: ApiCallResult[] }>(this.api);
   }
 
-  public updateAppInfo(url: string, appInfo: AppInfo) {
+  public updateAppInfo(url: string, appInfo: AppInfoRequest) {
     return this.httpClient.put(this.api, appInfo, {
       params: new HttpParams().set('targetUrl', url),
     });
