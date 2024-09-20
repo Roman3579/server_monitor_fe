@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { map, Observable, shareReplay } from 'rxjs';
-import { ApiCallResult } from '../models/api-call-result';
-import {AppInfo, AppInfoRequest} from '../models/app-info';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {map, Observable, shareReplay} from 'rxjs';
+import {ApiCallResult} from '../models/api-call-result';
+import {AppInfoRequest} from '../models/app-info';
 
 @Injectable({
   providedIn: 'root',
