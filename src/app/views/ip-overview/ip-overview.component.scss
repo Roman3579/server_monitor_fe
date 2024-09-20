@@ -16,3 +16,12 @@ $app-yellow-clor: #ccd21e;
 .header-top-row {
     display: flex;
 }
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-field {
+  width: 15%;
+}

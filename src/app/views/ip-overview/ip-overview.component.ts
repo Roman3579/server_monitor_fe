@@ -7,8 +7,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {RouterLink} from '@angular/router';
 import {ApiCallResult} from '../../models/api-call-result';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppInfoService} from '../../services/app-info.service';
 import {saveAs} from 'file-saver';
 import {MatDialog} from '@angular/material/dialog';
@@ -17,6 +16,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {ApiCallError} from "../../models/api-call-error";
 import {ArgumentOutOfRangeError} from "rxjs";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -49,7 +50,9 @@ function flattenResults(results: ApiCallResult[]) {
     RouterLink,
     MatTooltipModule,
     MatButtonModule,
-    MatSlideToggleModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
     FormsModule,
   ],
   templateUrl: './ip-overview.component.html',
@@ -61,7 +64,6 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     [];
   dataSource = new MatTableDataSource<FlattenedApiCallResult>();
   @ViewChild(MatSort) sort!: MatSort;
-  onlyActive = false;
   expanded = true;
 
   displayedColumns = [
@@ -71,6 +73,14 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     'active',
     'actionsColumn',
   ];
+
+  filterSelection = new FormControl<string[]>([])
+  filterOptions: {value: ApiCallError | null, displayValue: string}[] = [
+    {value: null, displayValue: "Active"},
+    {value: ApiCallError.NOT_FOUND, displayValue: "Unreachable - active"},
+    {value: ApiCallError.CONNECTION_ERROR, displayValue: "Unreachable - dead"},
+    {value: ApiCallError.UNKNOWN, displayValue: "Unknown"},
+  ]
 
   constructor(
     private appInfoService: AppInfoService,
@@ -84,7 +94,10 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     this.dataSource.filterPredicate = (
       data: FlattenedApiCallResult,
       filter: string
-    ) => data.active.toString() === filter;
+    ) => {
+      const selection: string[] = JSON.parse(filter)
+      return selection.length === 0 ? true : selection.includes(data.error)
+    };
     this.expanded = !this.localStorageService
       .retrieveCollapsedIpViews()
       .includes(this.ip());
@@ -94,8 +107,8 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  showOnlyActiveApps() {
-    this.dataSource.filter = this.onlyActive ? this.onlyActive.toString() : '';
+  updateActivityFilter() {
+    this.dataSource.filter = JSON.stringify(this.filterSelection.value)
   }
 
   downloadLatestLogs(url: string) {
