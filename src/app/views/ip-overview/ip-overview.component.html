@@ -32,8 +32,8 @@
     <ng-container matColumnDef="active">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Active</th>
       <td mat-cell *matCellDef="let element">
-        <mat-icon [color]="element.active ? 'success' : 'warn'"
-          >brightness_1
+        <mat-icon [color]="getStatusColor(element.error)">
+          brightness_1
         </mat-icon>
       </td>
     </ng-container>
