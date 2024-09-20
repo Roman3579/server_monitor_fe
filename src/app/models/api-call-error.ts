@@ -1,0 +1,5 @@
+export enum ApiCallError {
+  NOT_FOUND = "NOT_FOUND",
+  CONNECTION_ERROR = "CONNECTION_ERROR",
+  UNKNOWN = "UNKNOWN"
+}
