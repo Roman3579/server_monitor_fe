@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { ApiError } from '../../models/api-error';
 
 interface FlattenedApiCallResult {
   targetUrl: string;
@@ -82,9 +83,9 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
   filterSelection = new FormControl<string[]>([]);
   filterOptions = [
     { displayValue: 'Active', value: undefined },
-    { displayValue: 'Unreachable - live', value: 'Not found' },
-    { displayValue: 'Unreachable - dead', value: 'Connection failed' },
-    { displayValue: 'Unknown', value: 'Unknown error' },
+    { displayValue: 'Unreachable - live', value: ApiError.NOT_FOUND },
+    { displayValue: 'Unreachable - dead', value: ApiError.CONNECTION_FAILED },
+    { displayValue: 'Unknown', value: ApiError.UNKNOWN_ERROR },
   ];
 
   constructor(
@@ -119,7 +120,7 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = JSON.stringify(this.filterSelection.value);
   }
 
-  getStatusColor(errorMessage?: string) {
+  getStatusColor(errorMessage?: ApiError) {
     if (errorMessage == null || errorMessage == undefined) {
       return 'success';
     } else if (errorMessage.includes('Connection failed')) {
