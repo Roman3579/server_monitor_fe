@@ -1,29 +1,34 @@
-import {NgClass} from '@angular/common';
-import {AfterViewInit, Component, Input, input, OnInit, ViewChild,} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {RouterLink} from '@angular/router';
-import {ApiCallResult} from '../../models/api-call-result';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AppInfoService} from '../../services/app-info.service';
-import {saveAs} from 'file-saver';
-import {MatDialog} from '@angular/material/dialog';
-import {LoadingDialogComponent} from '../shared/loading-dialog/loading-dialog.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {LocalStorageService} from '../../services/local-storage.service';
-import {ApiCallError} from "../../models/api-call-error";
-import {ArgumentOutOfRangeError} from "rxjs";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatSelectModule} from "@angular/material/select";
+import { NgClass } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
+import { ApiCallResult } from '../../models/api-call-result';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppInfoService } from '../../services/app-info.service';
+import { saveAs } from 'file-saver';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingDialogComponent } from '../shared/loading-dialog/loading-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 interface FlattenedApiCallResult {
   targetUrl: string;
   appType: string;
   description: string;
-  error: ApiCallError;
+  error: string;
   frontendUrl: string;
 }
 
@@ -31,10 +36,10 @@ function flattenResults(results: ApiCallResult[]) {
   return results.map((result) => {
     return <FlattenedApiCallResult>{
       targetUrl: result.targetUrl,
-      appType: result.appInfoModel.appType,
-      description: result.appInfoModel.description,
-      error: result.appInfoModel.apiCallError,
-      frontendUrl: result.appInfoModel.frontendUrl,
+      appType: result.appInfoModel?.appType,
+      description: result.appInfoModel?.description,
+      error: result.errorMessage,
+      frontendUrl: result.appInfoModel?.frontendUrl,
     };
   });
 }
@@ -74,13 +79,13 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
     'actionsColumn',
   ];
 
-  filterSelection = new FormControl<string[]>([])
-  filterOptions: {value: ApiCallError | null, displayValue: string}[] = [
-    {value: null, displayValue: "Active"},
-    {value: ApiCallError.NOT_FOUND, displayValue: "Unreachable - active"},
-    {value: ApiCallError.CONNECTION_ERROR, displayValue: "Unreachable - dead"},
-    {value: ApiCallError.UNKNOWN, displayValue: "Unknown"},
-  ]
+  filterSelection = new FormControl<string[]>([]);
+  filterOptions = [
+    { displayValue: 'Active', value: undefined },
+    { displayValue: 'Unreachable - live', value: 'Not found' },
+    { displayValue: 'Unreachable - dead', value: 'Connection failed' },
+    { displayValue: 'Unknown', value: 'Unknown error' },
+  ];
 
   constructor(
     private appInfoService: AppInfoService,
@@ -95,8 +100,11 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
       data: FlattenedApiCallResult,
       filter: string
     ) => {
-      const selection: string[] = JSON.parse(filter)
-      return selection.length === 0 ? true : selection.includes(data.error)
+      const selection: (string | null)[] = JSON.parse(filter);
+      if (data.error == undefined && selection.includes(null)) {
+        return true;
+      }
+      return selection.length === 0 ? true : selection.includes(data.error);
     };
     this.expanded = !this.localStorageService
       .retrieveCollapsedIpViews()
@@ -108,7 +116,18 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
   }
 
   updateActivityFilter() {
-    this.dataSource.filter = JSON.stringify(this.filterSelection.value)
+    this.dataSource.filter = JSON.stringify(this.filterSelection.value);
+  }
+
+  getStatusColor(errorMessage?: string) {
+    if (errorMessage == null || errorMessage == undefined) {
+      return 'success';
+    } else if (errorMessage.includes('Connection failed')) {
+      return 'warn';
+    } else if (errorMessage.includes('Not found')) {
+      return 'accent';
+    }
+    return 'primary';
   }
 
   downloadLatestLogs(url: string) {
@@ -128,21 +147,6 @@ export class IpOverviewComponent implements OnInit, AfterViewInit {
         dialogRef.close();
       },
     });
-  }
-
-  getStatusColor(errorValue?: ApiCallError) {
-    switch (errorValue){
-      case null:
-        return "success"
-      case ApiCallError.NOT_FOUND:
-        return "accent"
-      case ApiCallError.CONNECTION_ERROR:
-        return "warn"
-      case ApiCallError.UNKNOWN:
-        return "primary"
-      default:
-        throw new ArgumentOutOfRangeError()
-    }
   }
 
   toggleExpansion() {
