@@ -3,3 +3,17 @@
     align-items: center;
     justify-content: center;
 }
+
+.app-overview-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.option-button {
+    margin-right: 5%;
+}
+
+.option-button-icon {
+    transform: scale(2);
+}

@@ -1,15 +1,25 @@
 import { NgFor } from '@angular/common';
 import { Component, DestroyRef, OnInit } from '@angular/core';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ApiCallResult } from '../../models/api-call-result';
 import { AppInfoService } from '../../services/app-info.service';
 import { IpOverviewComponent } from '../ip-overview/ip-overview.component';
-import { LocalStorageService } from '../../services/local-storage.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-apps-overview',
   standalone: true,
-  imports: [IpOverviewComponent, NgFor, MatProgressSpinnerModule],
+  imports: [
+    IpOverviewComponent,
+    NgFor,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconButton,
+    MatIconModule,
+    MatTooltipModule,
+  ],
   templateUrl: './apps-overview.component.html',
   styleUrl: './apps-overview.component.scss',
 })
@@ -23,6 +33,10 @@ export class AppsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData() {
     this.loadingData = true;
     const subscription = this.appInfoService.getGroupedAppInfo().subscribe({
       next: (res) => {
@@ -33,6 +47,11 @@ export class AppsOverviewComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
+  }
+
+  refreshData() {
+    this.appInfoService.refreshAppInfo();
+    this.loadData();
   }
 
   getIps() {
