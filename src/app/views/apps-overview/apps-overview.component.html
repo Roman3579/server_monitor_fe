@@ -1,4 +1,21 @@
-<h1>Overview</h1>
+<div class="app-overview-header">
+  <div class="header-title-section">
+    <h1>Overview</h1>
+  </div>
+  <div class="header-button-section">
+    <button
+      mat-icon-button
+      (click)="refreshData()"
+      matTooltip="Get latest retrieved data"
+      aria-label="Button for refreshing data"
+    >
+      <mat-icon class="option-button-icon">refresh</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon class="option-button-icon">autorenew</mat-icon>
+    </button>
+  </div>
+</div>
 @if (!loadingData) { @for (key of getIps(); track key) {
 <app-ip-overview [ip]="key" [results]="appInfos[key]"></app-ip-overview>
 } } @else {
