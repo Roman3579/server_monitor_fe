@@ -22,6 +22,11 @@ export class AppInfoService {
     return this.httpClient.get<{ apiCallResults: ApiCallResult[] }>(this.api);
   }
 
+  public refreshAppInfo() {
+    const subscription = this.getAppInfo().pipe(shareReplay());
+    this.appInfoData = subscription;
+  }
+
   public updateAppInfo(url: string, appInfo: AppInfoRequest) {
     return this.httpClient.put(this.api, appInfo, {
       params: new HttpParams().set('targetUrl', url),
