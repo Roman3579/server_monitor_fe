@@ -1,25 +1,27 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {map, Observable, shareReplay} from 'rxjs';
-import {ApiCallResult} from '../models/api-call-result';
-import {AppInfoRequest} from '../models/app-info';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { map, Observable, shareReplay } from 'rxjs';
+import { ApiCallResult } from '../models/api-call-result';
+import { AppInfoRequest } from '../models/app-info';
+import { API_CONFIG_TOKEN, ApiConfig } from '../config/api-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppInfoService {
-  api =
-    '/api/v1/results';
-  logs_endpoint = "/logs"
-
   appInfoData: Observable<{ apiCallResults: ApiCallResult[] }>;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    @Inject(API_CONFIG_TOKEN) private apiConfig: ApiConfig
+  ) {
     this.appInfoData = this.getAppInfo().pipe(shareReplay());
   }
 
   public getAppInfo() {
-    return this.httpClient.get<{ apiCallResults: ApiCallResult[] }>(this.api);
+    return this.httpClient.get<{ apiCallResults: ApiCallResult[] }>(
+      this.apiConfig.baseUrl + this.apiConfig.infoEndpoint
+    );
   }
 
   public refreshAppInfo() {
@@ -28,16 +30,25 @@ export class AppInfoService {
   }
 
   public updateAppInfo(url: string, appInfo: AppInfoRequest) {
-    return this.httpClient.put(this.api, appInfo, {
-      params: new HttpParams().set('targetUrl', url),
-    });
+    return this.httpClient.put(
+      this.apiConfig.baseUrl + this.apiConfig.infoEndpoint,
+      appInfo,
+      {
+        params: new HttpParams().set('targetUrl', url),
+      }
+    );
   }
 
   public downloadAppLogs(url: string) {
-    return this.httpClient.get(this.api + this.logs_endpoint, {
-      params: new HttpParams().set('url', url),
-      responseType: 'blob',
-    });
+    return this.httpClient.get(
+      this.apiConfig.baseUrl +
+        this.apiConfig.infoEndpoint +
+        this.apiConfig.logsEndpoint,
+      {
+        params: new HttpParams().set('url', url),
+        responseType: 'blob',
+      }
+    );
   }
 
   public getGroupedAppInfo() {
