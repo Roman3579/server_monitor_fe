@@ -55,6 +55,8 @@
             <button
               mat-icon-button
               color="primary"
+              [routerLink]="['detail', element.targetUrl]"
+              routerLinkActive="router-link-active"
               matTooltip="Go to detailed view"
               aria-label="Button linking to app details"
             >

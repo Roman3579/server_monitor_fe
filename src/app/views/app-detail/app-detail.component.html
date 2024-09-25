@@ -1,1 +1,21 @@
-<p>app-detail works!</p>
+<div>
+  <div class="header-area">
+    <div class="title-area">
+      <button
+        id="back-button"
+        mat-icon-button
+        [routerLink]="['/']"
+        matTooltip="Go back to overview"
+        aria-label="Button linking to apps overview"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h3>Detail view</h3>
+    </div>
+  </div>
+  <div class="textArea">
+    <p><strong>IP:</strong>{{ originIp }}</p>
+    <p><strong>Port:</strong>{{ originPort }}</p>
+    <p><strong>App info:</strong>{{ originAppInfo }}</p>
+  </div>
+</div>
