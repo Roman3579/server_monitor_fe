@@ -1,0 +1,25 @@
+.toolbar {
+    height: 64px;
+    position: sticky;
+    z-index: 10;
+    background-color: var(--primary-color);
+    top: 0;
+}
+
+.sidenav {
+    top: 64px;
+    position: fixed;
+    border-right: 1px solid;
+    border-radius: 0%;
+    width: 8%;
+    min-width: 150px;
+}
+
+.active-route {
+    text-decoration: none;
+    color: white;
+}
+
+.sidenav-content {
+    padding: 2%;
+}
