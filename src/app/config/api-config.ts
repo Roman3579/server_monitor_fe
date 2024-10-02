@@ -6,10 +6,14 @@ export interface ApiConfig {
   baseUrl: string;
   infoEndpoint: string;
   logsEndpoint: string;
+  settingsEndpoint: string;
+  targetsEndpoint: string;
 }
 
 export const apiConfig: ApiConfig = {
-  baseUrl: 'https://eb64eadd-db7b-4012-bbb4-0768dbe3a5e1.mock.pstmn.io',
+  baseUrl: 'http://localhost:8080',
   infoEndpoint: '/api/v1/results',
   logsEndpoint: '/logs',
+  settingsEndpoint: '/api/v1/settings',
+  targetsEndpoint: '/target',
 };
