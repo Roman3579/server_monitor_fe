@@ -1,0 +1,22 @@
+<mat-toolbar class="toolbar">
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Dev tools</span>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav class="sidenav" opened="true" mode="side"
+    ><mat-nav-list
+      ><a mat-list-item [routerLink]="['/']">Server monitor</a>
+      <a mat-list-item [routerLink]="['/home']">Home</a>
+      <a mat-list-item [routerLink]="['/other']">Other</a></mat-nav-list
+    ></mat-sidenav
+  >
+  <mat-sidenav-content class="sidenav-content"
+    ><router-outlet
+  /></mat-sidenav-content>
+</mat-sidenav-container>
